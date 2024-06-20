@@ -4,39 +4,43 @@ using UnityEngine;
 
 public class StandardRulesModel : Model
 {
-    /*
-      0 - ничего нет,
-     -1 - нолик,
-      1 - крестик
-      двумерный массив - каждое мини-поле имеет свой номер {id}, каждая клетка в мини-поле так же имеет свой номер
-    
-        номера распределяются таким образом:
+   
+    private MiniField[] _board;
 
-            1 2 3
-            4 5 6
-            7 8 9
-    */
-    private int[][] _board;
-
-    //аналогично с доской:
-    // -1 - нолик,
-    //  1 - крестик
-    private int _player;
+    private Player _playerX;
+    private Player _playerO;
+    private Player _playerCurrent;
 
 
 
     public StandardRulesModel(View view) : base(view)
     {
-        _board = new int[9][];
+        _board = new MiniField[9];
         for (int i = 0; i < 9; i++)
-            _board[i] = new int[9];
-        
+            _board[i] = new MiniField(i + 1);
+        _playerX = new Player(Team.X);
+        _playerO = new Player(Team.O);
+
+        _playerCurrent = _playerX;
     }
 
-    public void SetCellState(int fieldID, int cellID, int player)
+    public override void SetCellState(int fieldID, int cellID)
     {
-        if (_board[fieldID][cellID] != 0) return;
+        if (!_board[fieldID - 1].Cells[cellID - 1].IsEmpty()) return;
 
-        _board[fieldID][cellID] = player;
+        _board[fieldID - 1].Cells[cellID - 1].MarkedBy = _playerCurrent.Team;
+        _view.MarkCell(fieldID, cellID, _playerCurrent);
+        NextTurn();
+    }
+
+    private void NextTurn()
+    {
+        _playerCurrent = GetOpponent(_playerCurrent);
+    }
+
+    private Player GetOpponent(Player player)
+    {
+        if (player.Team == Team.X) return _playerO;
+        else return _playerX;
     }
 }

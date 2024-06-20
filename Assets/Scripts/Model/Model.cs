@@ -10,4 +10,6 @@ public abstract class Model
     {
         _view = view;
     }
+
+    public abstract void SetCellState(int fieldID, int cellID);
 }

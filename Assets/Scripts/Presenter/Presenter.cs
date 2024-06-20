@@ -10,4 +10,7 @@ public abstract class Presenter
     {
         _model = model;
     }
+
+    public abstract void OnCellPressed(int minifieldID, int cellID);
+  
 }

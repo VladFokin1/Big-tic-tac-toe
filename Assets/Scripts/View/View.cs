@@ -6,34 +6,23 @@ public abstract class View : MonoBehaviour
 {
     protected Presenter _presenter;
     protected GameObject _prefabCell;
-    protected MiniFieldController[] miniFields;
+    protected MiniFieldController[] _miniFields;
 
     public void Init(Presenter presenter, GameObject prefabCell)
     {
+        _miniFields = new MiniFieldController[9];
         _presenter = presenter;
         _prefabCell = prefabCell;
-        miniFields = new MiniFieldController[9];
         Spawn();
+        for (int i = 0; i < 9; i++)
+            _miniFields[i].Pressed += OnCellPressed;
     }
 
-    /* protected abstract void SpawnMiniField(Vector3 startPos);
 
+    protected abstract void Spawn();
 
-     protected abstract void SpawnField(Vector3 startPos);*/
+    protected abstract void OnCellPressed(int minifieldID, int cellID);
 
-    private void Spawn()
-    {
-        int k = 0;
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                MiniFieldController miniField = Instantiate(_prefabCell, new Vector3(-3.7f + j * 3.2f, 3.2f - i * 3.2f, 0), Quaternion.identity).GetComponent<MiniFieldController>();
-                miniField.ID = k + 1;
-                miniFields[k] = miniField;
-                k++;
-            }
-        }
-    }
+    public abstract void MarkCell(int minifieldID, int cellID, Player player);
 
 }

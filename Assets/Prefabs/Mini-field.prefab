@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7150904766620384038}
   - component: {fileID: 1817638509045762494}
   m_Layer: 0
-  m_Name: "\u043A\u043B\u0435\u0442\u043A\u0430 (2)"
+  m_Name: "\u043A\u043B\u0435\u0442\u043A\u04303"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteX: {fileID: 21300000, guid: 155344b49b11e1a42992cce70bc9cc6b, type: 3}
   _spriteO: {fileID: 21300000, guid: a67970b0ac8e1f646b390647a88c04ac, type: 3}
-  _id: 0
+  _id: 3
 --- !u!1 &398675312273480853
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 5380361891961291586}
   - component: {fileID: 4519377398056640629}
   m_Layer: 0
-  m_Name: "\u043A\u043B\u0435\u0442\u043A\u0430 (3)"
+  m_Name: "\u043A\u043B\u0435\u0442\u043A\u04304"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteX: {fileID: 21300000, guid: 155344b49b11e1a42992cce70bc9cc6b, type: 3}
   _spriteO: {fileID: 21300000, guid: a67970b0ac8e1f646b390647a88c04ac, type: 3}
-  _id: 0
+  _id: 4
 --- !u!1 &569003240013152569
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 545480026380456384}
   - component: {fileID: 311570415719282399}
   m_Layer: 0
-  m_Name: "\u043A\u043B\u0435\u0442\u043A\u0430 (8)"
+  m_Name: "\u043A\u043B\u0435\u0442\u043A\u04309"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteX: {fileID: 21300000, guid: 155344b49b11e1a42992cce70bc9cc6b, type: 3}
   _spriteO: {fileID: 21300000, guid: a67970b0ac8e1f646b390647a88c04ac, type: 3}
-  _id: 0
+  _id: 9
 --- !u!1 &1350025092113421915
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,7 +451,7 @@ GameObject:
   - component: {fileID: 5595829897461080698}
   - component: {fileID: 8111615909917447956}
   m_Layer: 0
-  m_Name: "\u043A\u043B\u0435\u0442\u043A\u0430 (1)"
+  m_Name: "\u043A\u043B\u0435\u0442\u043A\u04302"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -583,7 +583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteX: {fileID: 21300000, guid: 155344b49b11e1a42992cce70bc9cc6b, type: 3}
   _spriteO: {fileID: 21300000, guid: a67970b0ac8e1f646b390647a88c04ac, type: 3}
-  _id: 0
+  _id: 2
 --- !u!1 &2070034078191943936
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,7 +597,7 @@ GameObject:
   - component: {fileID: 394816727625291760}
   - component: {fileID: 3628173581466928161}
   m_Layer: 0
-  m_Name: "\u043A\u043B\u0435\u0442\u043A\u0430 (6)"
+  m_Name: "\u043A\u043B\u0435\u0442\u043A\u04307"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -729,7 +729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteX: {fileID: 21300000, guid: 155344b49b11e1a42992cce70bc9cc6b, type: 3}
   _spriteO: {fileID: 21300000, guid: a67970b0ac8e1f646b390647a88c04ac, type: 3}
-  _id: 0
+  _id: 7
 --- !u!1 &2505016345664944801
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,7 +827,7 @@ GameObject:
   - component: {fileID: 5134083410761490406}
   - component: {fileID: 233198256845559306}
   m_Layer: 0
-  m_Name: "\u043A\u043B\u0435\u0442\u043A\u0430 (7)"
+  m_Name: "\u043A\u043B\u0435\u0442\u043A\u04308"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -959,7 +959,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteX: {fileID: 21300000, guid: 155344b49b11e1a42992cce70bc9cc6b, type: 3}
   _spriteO: {fileID: 21300000, guid: a67970b0ac8e1f646b390647a88c04ac, type: 3}
-  _id: 0
+  _id: 8
 --- !u!1 &4585844012954300196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,7 +1260,7 @@ GameObject:
   - component: {fileID: 4726984925371455446}
   - component: {fileID: 1418020778328292296}
   m_Layer: 0
-  m_Name: "\u043A\u043B\u0435\u0442\u043A\u0430"
+  m_Name: "\u043A\u043B\u0435\u0442\u043A\u04301"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1392,7 +1392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteX: {fileID: 21300000, guid: 155344b49b11e1a42992cce70bc9cc6b, type: 3}
   _spriteO: {fileID: 21300000, guid: a67970b0ac8e1f646b390647a88c04ac, type: 3}
-  _id: 0
+  _id: 1
 --- !u!1 &7464562893406985476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,7 +1490,7 @@ GameObject:
   - component: {fileID: 7537004900322192465}
   - component: {fileID: 2731949663282592425}
   m_Layer: 0
-  m_Name: "\u043A\u043B\u0435\u0442\u043A\u0430 (4)"
+  m_Name: "\u043A\u043B\u0435\u0442\u043A\u04305"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1622,7 +1622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteX: {fileID: 21300000, guid: 155344b49b11e1a42992cce70bc9cc6b, type: 3}
   _spriteO: {fileID: 21300000, guid: a67970b0ac8e1f646b390647a88c04ac, type: 3}
-  _id: 0
+  _id: 5
 --- !u!1 &8531894753347019762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,7 +1636,7 @@ GameObject:
   - component: {fileID: 271312460772323331}
   - component: {fileID: 6545927804818783543}
   m_Layer: 0
-  m_Name: "\u043A\u043B\u0435\u0442\u043A\u0430 (5)"
+  m_Name: "\u043A\u043B\u0435\u0442\u043A\u04306"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1768,7 +1768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteX: {fileID: 21300000, guid: 155344b49b11e1a42992cce70bc9cc6b, type: 3}
   _spriteO: {fileID: 21300000, guid: a67970b0ac8e1f646b390647a88c04ac, type: 3}
-  _id: 0
+  _id: 6
 --- !u!1 &8745855391245042371
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,13 +1801,13 @@ Transform:
   m_Children:
   - {fileID: 6584279352950201090}
   - {fileID: 5188328049696263056}
-  - {fileID: 7855599560380922750}
-  - {fileID: 3584059719790425817}
   - {fileID: 6415521399262707636}
-  - {fileID: 3364962829741911272}
-  - {fileID: 5677248418142484889}
   - {fileID: 3191804276970874833}
+  - {fileID: 7855599560380922750}
+  - {fileID: 3364962829741911272}
   - {fileID: 6326653788898761447}
+  - {fileID: 3584059719790425817}
+  - {fileID: 5677248418142484889}
   - {fileID: 8737544852557483621}
   - {fileID: 182707261617521865}
   m_Father: {fileID: 0}
@@ -1825,3 +1825,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 0
+  _cells:
+  - {fileID: 1418020778328292296}
+  - {fileID: 8111615909917447956}
+  - {fileID: 1817638509045762494}
+  - {fileID: 4519377398056640629}
+  - {fileID: 2731949663282592425}
+  - {fileID: 6545927804818783543}
+  - {fileID: 3628173581466928161}
+  - {fileID: 233198256845559306}
+  - {fileID: 311570415719282399}
