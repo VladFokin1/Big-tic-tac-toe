@@ -18,9 +18,20 @@ public class CellController : MonoBehaviour
 
     public void Mark(Team team)
     {
-        if (team == Team.X)
+        /*if (team == Team.X)
             _renderer.sprite = _spriteX;
-        else _renderer.sprite = _spriteO;
+        else _renderer.sprite = _spriteO;*/
+        switch (team)
+        {
+            case Team.X: 
+                _renderer.sprite = _spriteX; 
+                break;
+            case Team.O:
+                _renderer.sprite = _spriteO;
+                break;
+            default:
+                return;
+        }
 
         Color old = _renderer.color;
         _renderer.color = new Color(old.r, old.g, old.b, 255);
@@ -29,7 +40,6 @@ public class CellController : MonoBehaviour
     private void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
-       // _pressedEvent = new UnityEvent();
         Color old = _renderer.color;
         _renderer.color = new Color(old.r, old.g, old.b, 0);
     }

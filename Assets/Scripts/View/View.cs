@@ -25,4 +25,9 @@ public abstract class View : MonoBehaviour
 
     public abstract void MarkCell(int minifieldID, int cellID, Player player);
 
+    public abstract void MarkMiniField(int minifieldID, Player player);
+
+    public abstract void ActivateMiniField(int minifieldID);
+    public abstract void DeactivateMiniField(int minifieldID);
+
 }

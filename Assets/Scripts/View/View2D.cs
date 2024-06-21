@@ -31,4 +31,19 @@ public class View2D : View
     {
         _miniFields[minifieldID - 1].Cells[cellID - 1].Mark(player.Team);
     }
+
+    public override void MarkMiniField(int minifieldID, Player player)
+    {
+        _miniFields[minifieldID - 1].Mark(player.Team);
+    }
+
+    public override void ActivateMiniField(int minifieldID)
+    {
+        _miniFields[minifieldID - 1].Activate();
+    }
+
+    public override void DeactivateMiniField(int minifieldID)
+    {
+        _miniFields[minifieldID - 1].Deactivate();
+    }
 }

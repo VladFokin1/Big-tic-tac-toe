@@ -6,6 +6,10 @@ public class MiniFieldController : MonoBehaviour
 {
     [SerializeField] private int _id;
     [SerializeField] private CellController[] _cells;
+    [SerializeField] private GameObject _markObj;
+    [SerializeField] private GameObject _deactivateObj;
+    [SerializeField] private Sprite _spriteX;
+    [SerializeField] private Sprite _spriteO;
 
     public delegate void MiniFieldCellPressedHanlder(int minifieldID, int cellID);
 
@@ -33,6 +37,32 @@ public class MiniFieldController : MonoBehaviour
         _pressedEvent?.Invoke(_id, cellID);
     }
 
+    public void Mark(Team team)
+    {
+        SpriteRenderer renderer = _markObj.GetComponent<SpriteRenderer>();
 
+        switch (team)
+        {
+            case Team.X:
+                renderer.sprite = _spriteX;
+                break;
+            case Team.O:
+                renderer.sprite = _spriteO;
+                break;
+            default:
+                return;
+        }
+        _markObj.SetActive(true);
+    }
+
+    public void Activate()
+    {
+        _deactivateObj.SetActive(false);
+    }
+
+    public void Deactivate()
+    {
+        _deactivateObj.SetActive(true);
+    }
 
 }
