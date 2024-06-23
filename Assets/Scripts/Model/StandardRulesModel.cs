@@ -12,8 +12,10 @@ public class StandardRulesModel : Model
 
     public override void SetCellState(int fieldID, int cellID)
     {
+        if (_IsWin) return;
         if (!_board[fieldID - 1].IsActive) return;
         if (!_board[fieldID - 1].Cells[cellID - 1].IsEmpty()) return;
+       
 
         _board[fieldID - 1].Cells[cellID - 1].MarkedBy = _playerCurrent.Team;
         _view.MarkCell(fieldID, cellID, _playerCurrent);
@@ -21,12 +23,22 @@ public class StandardRulesModel : Model
         if (_board[fieldID - 1].ShouldBeMarked())
         {
             _board[fieldID - 1].MarkedBy = _playerCurrent.Team;
+            _board[fieldID - 1].IsActive = false;
+            _view.DeactivateMiniField(fieldID);
             _view.MarkMiniField(fieldID, _playerCurrent);
+        }
+
+        if (_playerCurrent.IsWin(_board))
+        {
+            _IsWin = true;
+            _view.ShowWinScreen(_playerCurrent.Team);
         }
 
         SwitchMiniFieldsToNextTurn(cellID);
 
         NextTurn();
+
+
 
     }
 
@@ -40,8 +52,6 @@ public class StandardRulesModel : Model
 
     protected override Player GetOpponent(Player player)
     {
-        /*if (player.Team == Team.X) return _playerO;
-        else return _playerX;*/
         switch (player.Team)
         {
             case Team.X:
@@ -58,7 +68,7 @@ public class StandardRulesModel : Model
     {
         for (int i = 0; i < 9; i++)
         {
-            if (_board[i].MarkedBy == Team.None)
+            if (_board[i].MarkedBy == Team.None && !_board[i].IsTie())
             {
                 _board[i].IsActive = true;
                 _view.ActivateMiniField(i + 1);
@@ -73,7 +83,7 @@ public class StandardRulesModel : Model
         {
             if (_board[i].ID == cellID)
             {
-                if (_board[i].MarkedBy == Team.None)
+                if (_board[i].MarkedBy == Team.None && !_board[i].IsTie())
                 {
                     _board[i].IsActive = true;
                     _view.ActivateMiniField(i + 1);

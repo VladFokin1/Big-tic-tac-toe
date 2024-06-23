@@ -21,5 +21,4 @@ public class Cell
         return _markedBy == Team.None;
     }
 
-    
 }

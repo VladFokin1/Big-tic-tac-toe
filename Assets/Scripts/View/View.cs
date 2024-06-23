@@ -50,4 +50,6 @@ public abstract class View : MonoBehaviour
 
     public abstract void ChangeTurnText(Team team);
 
+    public abstract void ShowWinScreen(Team team);
+
 }

@@ -70,5 +70,17 @@ public class MiniField
 
     }
 
+    public bool IsTie()
+    {
+        for (int i = 0; i < 9; i ++)
+        {
+            if (_cells[i].MarkedBy == Team.None)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }

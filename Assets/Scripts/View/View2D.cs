@@ -61,4 +61,21 @@ public class View2D : View
                 break;
        }
     }
+
+    public override void ShowWinScreen(Team team)
+    {
+        _textMoveObj.SetActive(false);
+        switch (team)
+        {
+            case Team.X:
+                _textWin.text = " –≈—“» »";
+                _textWin.color = new Color(255, 0, 0);
+                break;
+            case Team.O:
+                _textWin.text = "ÕŒÀ» »";
+                _textWin.color = new Color(0, 0, 255);
+                break;
+        }
+        _textWinObj.SetActive(true);
+    }
 }

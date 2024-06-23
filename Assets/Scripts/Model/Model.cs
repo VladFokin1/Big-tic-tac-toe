@@ -6,6 +6,7 @@ public abstract class Model
 {
     protected View _view;
     protected MiniField[] _board;
+    protected bool _IsWin;
 
     protected Player _playerX;
     protected Player _playerO;
@@ -13,6 +14,7 @@ public abstract class Model
 
     public Model(View view)
     {
+        _IsWin = false;
         _view = view;
         _board = new MiniField[9];
         for (int i = 0; i < 9; i++)
