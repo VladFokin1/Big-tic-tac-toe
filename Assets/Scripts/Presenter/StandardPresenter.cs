@@ -11,6 +11,6 @@ public class StandardPresenter : Presenter
     public override void OnCellPressed(int minifieldID, int cellID)
     {
        _model.SetCellState(minifieldID, cellID);
-       _model.NextTurn();
+       
     }
 }

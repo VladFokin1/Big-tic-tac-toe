@@ -26,19 +26,31 @@ public class StandardRulesModel : Model
 
         SwitchMiniFieldsToNextTurn(cellID);
 
+        NextTurn();
+
     }
 
 
     public override void NextTurn()
     {
         _playerCurrent = GetOpponent(_playerCurrent);
+        _view.ChangeTurnText(_playerCurrent.Team);
     }
 
 
     protected override Player GetOpponent(Player player)
     {
-        if (player.Team == Team.X) return _playerO;
-        else return _playerX;
+        /*if (player.Team == Team.X) return _playerO;
+        else return _playerX;*/
+        switch (player.Team)
+        {
+            case Team.X:
+                return _playerO;
+            case Team.O:
+                return _playerX;
+            default:
+                return null;
+        }
     }
 
 

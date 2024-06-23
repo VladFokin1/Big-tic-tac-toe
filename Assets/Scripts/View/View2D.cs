@@ -46,4 +46,19 @@ public class View2D : View
     {
         _miniFields[minifieldID - 1].Deactivate();
     }
+
+    public override void ChangeTurnText(Team team)
+    {
+       switch (team)
+       {
+            case Team.X:
+                _textCurrentMove.text = "йпеярхйнб";
+                _textCurrentMove.color = new Color(255, 0, 0);
+                break;
+            case Team.O:
+                _textCurrentMove.text = "мнкхйнб";
+                _textCurrentMove.color = new Color(0, 0, 255);
+                break;
+       }
+    }
 }
