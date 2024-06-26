@@ -82,5 +82,15 @@ public class MiniField
         return true;
     }
 
+    public List<Cell> GetFreeCells()
+    {
+        List<Cell> cells = new List<Cell>();
+        foreach(Cell cell in _cells)
+        {
+            if (cell.MarkedBy == Team.None) cells.Add(cell);
+        }
+        return cells;
+    }
+
 
 }

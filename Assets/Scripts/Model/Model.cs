@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Model 
 {
     protected View _view;
-    protected MiniField[] _board;
+    protected Board _board;
     protected bool _IsWin;
 
     protected Player _playerX;
@@ -16,9 +16,7 @@ public abstract class Model
     {
         _IsWin = false;
         _view = view;
-        _board = new MiniField[9];
-        for (int i = 0; i < 9; i++)
-            _board[i] = new MiniField(i + 1);
+        _board = new Board();
         _playerX = new Player(Team.X);
         _playerO = new Player(Team.O);
 

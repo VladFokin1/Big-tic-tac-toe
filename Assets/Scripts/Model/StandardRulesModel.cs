@@ -28,7 +28,7 @@ public class StandardRulesModel : Model
             _view.MarkMiniField(fieldID, _playerCurrent);
         }
 
-        if (_playerCurrent.IsWin(_board))
+        if (_board.IsWin(_playerCurrent.Team))
         {
             _IsWin = true;
             _view.ShowWinScreen(_playerCurrent.Team);
