@@ -34,11 +34,11 @@ public class StandardRulesModel : Model
             _view.ShowWinScreen(_playerCurrent.Team);
         }
 
-        SwitchMiniFieldsToNextTurn(cellID);
+        _board.SwitchMiniFieldsToNextTurn(cellID);
+        ChangeActivationOnView();
+
 
         NextTurn();
-
-
 
     }
 
@@ -63,44 +63,12 @@ public class StandardRulesModel : Model
         }
     }
 
-
-    protected override void ActivateAllPossible()
+    protected override void ChangeActivationOnView()
     {
         for (int i = 0; i < 9; i++)
         {
-            if (_board[i].MarkedBy == Team.None && !_board[i].IsTie())
-            {
-                _board[i].IsActive = true;
-                _view.ActivateMiniField(i + 1);
-            }
-        }
-    }
-
-
-    protected override void SwitchMiniFieldsToNextTurn(int cellID)
-    {
-        for (int i = 0; i < 9; i++)
-        {
-            if (_board[i].ID == cellID)
-            {
-                if (_board[i].MarkedBy == Team.None && !_board[i].IsTie())
-                {
-                    _board[i].IsActive = true;
-                    _view.ActivateMiniField(i + 1);
-                }
-                else
-                {
-                    ActivateAllPossible();
-                    break;
-                }
-
-            }
-            else
-            {
-                _board[i].IsActive = false;
-                _view.DeactivateMiniField(i + 1);
-            }
-
+            if (_board[i].IsActive) _view.ActivateMiniField(i + 1);
+            else _view.DeactivateMiniField(i + 1);
         }
     }
 }

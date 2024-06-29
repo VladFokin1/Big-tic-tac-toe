@@ -92,4 +92,42 @@ public class Board
         }
         return fields;
     }
+
+    private void ActivateAllPossible()
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            if (_board[i].MarkedBy == Team.None && !_board[i].IsTie())
+            {
+                _board[i].IsActive = true;
+                
+            }
+        }
+    }
+
+
+    public void SwitchMiniFieldsToNextTurn(int cellID)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            if (_board[i].ID == cellID)
+            {
+                if (_board[i].MarkedBy == Team.None && !_board[i].IsTie())
+                {
+                    _board[i].IsActive = true;
+                }
+                else
+                {
+                    ActivateAllPossible();
+                    break;
+                }
+
+            }
+            else
+            {
+                _board[i].IsActive = false;
+            }
+
+        }
+    }
 }

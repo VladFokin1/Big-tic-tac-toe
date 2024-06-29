@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,19 +9,53 @@ public class AiPlayer : Player
     {
     }
 
-    private int MiniMax(Board board, int depth, Player player, bool isMaximazingPlayer)
+    private int MiniMax(Board board, int depth, Team player, int alpha, int beta, bool isMaximazingPlayer)
     {
         if (depth == 0 || board.IsWin(_team) || board.IsWin(GetOpponent(_team)) || board.IsTie())
-            return isMaximazingPlayer ? Evaluate(board, player.Team) : Evaluate(board, GetOpponent(player.Team));
+            return isMaximazingPlayer ? Evaluate(board, player) : Evaluate(board, GetOpponent(player));
 
+        int res = isMaximazingPlayer ? Int32.MinValue : Int32.MaxValue;
+
+        bool alphaBetaCut = false;
         foreach (MiniField field in board.GetActiveMiniFields())
         {
+            if (alphaBetaCut) break;
             foreach (Cell cell in field.GetFreeCells())
             {
+                
+                //делаем ход
+                cell.MarkedBy = player;
+                if (field.ShouldBeMarked())
+                {
+                    field.MarkedBy = player;
+                    field.IsActive = false;
+                }
+                board.SwitchMiniFieldsToNextTurn(cell.ID);
+
+                //минимакс
+                if (isMaximazingPlayer)
+                {
+                    res = Mathf.Max(res, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, false));
+                    alpha = Mathf.Max(alpha, res);
+                }
+                else
+                {
+                    res = Mathf.Min(res, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, true));
+                    beta = Mathf.Min(beta, res);
+                }
+
+                if (beta <= alpha) alphaBetaCut = true;
+
+                //возвращаем поле в изначальное состояние
+                field.MarkedBy = Team.None;
+                field.IsActive = true;
+                cell.MarkedBy = Team.None;
 
             }
 
         }
+
+        return res;
     }
 
     private int Evaluate(Board board, Team team)

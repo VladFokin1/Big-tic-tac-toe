@@ -29,7 +29,5 @@ public abstract class Model
 
     protected abstract Player GetOpponent(Player player);
 
-    protected abstract void ActivateAllPossible();
-
-    protected abstract void SwitchMiniFieldsToNextTurn(int cellID);
+    protected abstract void ChangeActivationOnView();
 }
