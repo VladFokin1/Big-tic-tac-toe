@@ -505,6 +505,7 @@ MonoBehaviour:
   _textCurrentMove: {fileID: 1209888310}
   _textWinObj: {fileID: 108652302}
   _textWin: {fileID: 1368418519}
+  _gameMode: 1
 --- !u!4 &578517136
 Transform:
   m_ObjectHideFlags: 0

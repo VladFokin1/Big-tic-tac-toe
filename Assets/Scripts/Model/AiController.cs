@@ -3,18 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AiPlayer : Player
+public class AiController
 {
-    public AiPlayer(Team team) : base(team)
-    {
-    }
 
-    private int MiniMax(Board board, int depth, Team player, int alpha, int beta, bool isMaximazingPlayer)
+    private Move MiniMax(Board board, int depth, Team player, int alpha, int beta, bool isMaximazingPlayer)
     {
-        if (depth == 0 || board.IsWin(_team) || board.IsWin(GetOpponent(_team)) || board.IsTie())
-            return isMaximazingPlayer ? Evaluate(board, player) : Evaluate(board, GetOpponent(player));
+        Move currentMove = new Move();
+        if (depth == 0 || board.IsWin(player) || board.IsWin(GetOpponent(player)) || board.IsTie())
+        {
+            currentMove.Score = isMaximazingPlayer ? Evaluate(board, player) : Evaluate(board, GetOpponent(player));
+            return currentMove;
+        }
+            
 
-        int res = isMaximazingPlayer ? Int32.MinValue : Int32.MaxValue;
+        Move bestMove = new Move();
+        bestMove.Score = isMaximazingPlayer ? Int32.MinValue : Int32.MaxValue;
 
         bool alphaBetaCut = false;
         foreach (MiniField field in board.GetActiveMiniFields())
@@ -22,7 +25,10 @@ public class AiPlayer : Player
             if (alphaBetaCut) break;
             foreach (Cell cell in field.GetFreeCells())
             {
-                
+                //запоминаем текущий ход
+                currentMove.MiniFieldID = field.ID;
+                currentMove.CellID = cell.ID;
+
                 //делаем ход
                 cell.MarkedBy = player;
                 if (field.ShouldBeMarked())
@@ -35,13 +41,13 @@ public class AiPlayer : Player
                 //минимакс
                 if (isMaximazingPlayer)
                 {
-                    res = Mathf.Max(res, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, false));
-                    alpha = Mathf.Max(alpha, res);
+                    currentMove.Score = Mathf.Max(currentMove.Score, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, false).Score);
+                    alpha = Mathf.Max(alpha, currentMove.Score);
                 }
                 else
                 {
-                    res = Mathf.Min(res, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, true));
-                    beta = Mathf.Min(beta, res);
+                    currentMove.Score = Mathf.Min(currentMove.Score, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, true).Score);
+                    beta = Mathf.Min(beta, currentMove.Score);
                 }
 
                 if (beta <= alpha) alphaBetaCut = true;
@@ -51,11 +57,36 @@ public class AiPlayer : Player
                 field.IsActive = true;
                 cell.MarkedBy = Team.None;
 
+                if (isMaximazingPlayer)
+                {
+                    if (currentMove.Score > bestMove.Score)
+                    {
+                        bestMove.MiniFieldID = currentMove.MiniFieldID;
+                        bestMove.CellID = currentMove.CellID;
+                        bestMove.Score = currentMove.Score;
+                    }
+                }
+                else
+                {
+                    if (currentMove.Score <= bestMove.Score)
+                    {
+                        bestMove.MiniFieldID = currentMove.MiniFieldID;
+                        bestMove.CellID = currentMove.CellID;
+                        bestMove.Score = currentMove.Score;
+                    }
+                }
+
             }
 
         }
 
-        return res;
+        return bestMove;
+    }
+
+    public Move GetMove(Board  board, Team player)
+    {
+        Move move = MiniMax(board, 4, player, Int32.MinValue, Int32.MaxValue, true);
+        return move;
     }
 
     private int Evaluate(Board board, Team team)
@@ -89,7 +120,7 @@ public class AiPlayer : Player
         {
             if (board[i].MarkedBy == board[i + 1].MarkedBy && board[i + 1].MarkedBy == board[i + 2].MarkedBy)
             {
-                if (board[i].MarkedBy == _team) score += 10;
+                if (board[i].MarkedBy == team) score += 10;
                 else if ((board[i].MarkedBy == teamOpponent)) score += -10;
             }
         }
@@ -99,7 +130,7 @@ public class AiPlayer : Player
         {
             if (board[i].MarkedBy == board[i + 3].MarkedBy && board[i + 3].MarkedBy == board[i + 6].MarkedBy)
             {
-                if (board[i].MarkedBy == _team) score += 10;
+                if (board[i].MarkedBy == team) score += 10;
                 else if ((board[i].MarkedBy == teamOpponent)) score += -10;
             }
 
@@ -108,13 +139,13 @@ public class AiPlayer : Player
         //диагонали
         if (board[0].MarkedBy == board[4].MarkedBy && board[4].MarkedBy == board[8].MarkedBy)
         {
-            if (board[4].MarkedBy == _team) score += 10;
+            if (board[4].MarkedBy == team) score += 10;
             else if ((board[4].MarkedBy == teamOpponent)) score += -10;
         }
 
         if (board[2].MarkedBy == board[4].MarkedBy && board[4].MarkedBy == board[6].MarkedBy)
         {
-            if (board[4].MarkedBy == _team) score += 10;
+            if (board[4].MarkedBy == team) score += 10;
             else if ((board[4].MarkedBy == teamOpponent)) score += -10;
         }
 
