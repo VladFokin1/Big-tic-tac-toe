@@ -11,7 +11,7 @@ public class AiController
         Move currentMove = new Move();
         if (depth == 0 || board.IsWin(player) || board.IsWin(GetOpponent(player)) || board.IsTie())
         {
-            currentMove.Score = isMaximazingPlayer ? Evaluate(board, player) : Evaluate(board, GetOpponent(player));
+            currentMove.Score = isMaximazingPlayer ? Evaluate(board, player) : -Evaluate(board, player);
             return currentMove;
         }
             
@@ -85,7 +85,7 @@ public class AiController
 
     public Move GetMove(Board  board, Team player)
     {
-        Move move = MiniMax(board, 4, player, Int32.MinValue, Int32.MaxValue, true);
+        Move move = MiniMax(board, 6, player, Int32.MinValue, Int32.MaxValue, true);
         return move;
     }
 

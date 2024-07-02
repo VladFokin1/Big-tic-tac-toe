@@ -24,7 +24,13 @@ public class PlayerVSComputerModel : Model
     public override void SetCellState(int fieldID, int cellID)
     {
         if (_IsWin) return;
+
         DoMove(fieldID, cellID);
-        NextTurn();
+
+        if (!_IsWin)
+        {
+            NextTurn();
+        }
+        
     }
 }

@@ -11,13 +11,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _textCurrentMove;
     [SerializeField] private GameObject _textWinObj;
     [SerializeField] private TMP_Text _textWin;
-    [SerializeField] private GameMode _gameMode;
+    //[SerializeField] private GameMode _gameMode;
 
     private void Awake()
     {
         View view = Instantiate(_viewPrefab);
         Model model = null;
-        switch (_gameMode)
+        switch (DataHolder.Mode)
         {
             case GameMode.PlayerVSPlayer:
                 model = new PlayerVSPlayerModel(view);
