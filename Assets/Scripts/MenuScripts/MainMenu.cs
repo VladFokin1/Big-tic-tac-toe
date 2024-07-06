@@ -5,7 +5,8 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Animator _mainMenuAnimator;
     [SerializeField] private Animator _chooseGameModeAnimator;
-    
+    [SerializeField] private Animator _chooseTeamMenu;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,8 @@ public class MainMenu : MonoBehaviour
     public void OpenChooseModeMenu()
     {
         _chooseGameModeAnimator.SetBool("Open", true);
+        _chooseGameModeAnimator.SetBool("CloseRight", false);
+        _chooseGameModeAnimator.SetBool("CloseLeft", false);
     }
 
     public void CloseRightChooseModeMenu()
@@ -58,9 +61,20 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
-    public void StartComputerGame()
+    public void StartComputerGame(bool IsAiX)
     {
         DataHolder.Mode = GameMode.PlayerVSComputer;
+        DataHolder.IsAiX = IsAiX;
         SceneManager.LoadScene("Game");
+    }
+
+    public void OpenChooseTeamMenu()
+    {
+        _chooseTeamMenu.SetBool("IsOpen", true);
+    }
+
+    public void CloseChooseTeamMenu()
+    {
+        _chooseTeamMenu.SetBool("IsOpen", false);
     }
 }

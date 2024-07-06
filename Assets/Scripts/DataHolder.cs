@@ -6,4 +6,6 @@ public static class DataHolder
 {
     public static GameMode Mode { get; set; } = GameMode.PlayerVSPlayer;
     public static Team Team { get; set; } = Team.None;
+
+    public static bool IsAiX { get; set; } = false;
 }

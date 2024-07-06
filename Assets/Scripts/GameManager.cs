@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _textCurrentMove;
     [SerializeField] private GameObject _textWinObj;
     [SerializeField] private TMP_Text _textWin;
+    [SerializeField] bool _isAiX;
     //[SerializeField] private GameMode _gameMode;
 
     private void Awake()
@@ -29,6 +30,12 @@ public class GameManager : MonoBehaviour
         Presenter presenter = new StandardPresenter(model);
 
         view.Init(presenter, _prefabCell, _textMoveObj, _textCurrentMove, _textWinObj, _textWin);
+
+        if (DataHolder.IsAiX)
+        {
+
+            model.DoRandomMove();
+        }
         //view.Spawn();
 
     }

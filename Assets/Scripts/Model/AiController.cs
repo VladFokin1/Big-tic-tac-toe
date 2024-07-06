@@ -6,18 +6,15 @@ using UnityEngine;
 public class AiController
 {
 
-    private Move MiniMax(Board board, int depth, Team player, int alpha, int beta, bool isMaximazingPlayer)
+    private int MiniMax(Board board, int depth, Team player, int alpha, int beta, bool isMaximazingPlayer)
     {
-        Move currentMove = new Move();
+        int score;
         if (depth == 0 || board.IsWin(player) || board.IsWin(GetOpponent(player)) || board.IsTie())
         {
-            currentMove.Score = isMaximazingPlayer ? Evaluate(board, player) : -Evaluate(board, player);
-            return currentMove;
+            score = isMaximazingPlayer ? Evaluate(board, player) : -Evaluate(board, player);
+            return score;
         }
-            
-
-        Move bestMove = new Move();
-        bestMove.Score = isMaximazingPlayer ? Int32.MinValue : Int32.MaxValue;
+        score = isMaximazingPlayer ? -1000 : 1000;
 
         bool alphaBetaCut = false;
         foreach (MiniField field in board.GetActiveMiniFields())
@@ -25,9 +22,12 @@ public class AiController
             if (alphaBetaCut) break;
             foreach (Cell cell in field.GetFreeCells())
             {
-                //запоминаем текущий ход
-                currentMove.MiniFieldID = field.ID;
-                currentMove.CellID = cell.ID;
+                //запоминаем доску
+                bool[] active = new bool[9];
+                for (int i = 0; i < 9; i++)
+                {
+                    active[i] = board[i].IsActive;
+                }
 
                 //делаем ход
                 cell.MarkedBy = player;
@@ -41,13 +41,13 @@ public class AiController
                 //минимакс
                 if (isMaximazingPlayer)
                 {
-                    currentMove.Score = Mathf.Max(currentMove.Score, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, false).Score);
-                    alpha = Mathf.Max(alpha, currentMove.Score);
+                    score = Mathf.Max(score, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, false));
+                    alpha = Mathf.Max(alpha, score);
                 }
                 else
                 {
-                    currentMove.Score = Mathf.Min(currentMove.Score, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, true).Score);
-                    beta = Mathf.Min(beta, currentMove.Score);
+                    score = Mathf.Min(score, MiniMax(board, depth - 1, GetOpponent(player), alpha, beta, true));
+                    beta = Mathf.Min(beta, score);
                 }
 
                 if (beta <= alpha) alphaBetaCut = true;
@@ -56,26 +56,62 @@ public class AiController
                 field.MarkedBy = Team.None;
                 field.IsActive = true;
                 cell.MarkedBy = Team.None;
-
-                if (isMaximazingPlayer)
+                for (int i = 0; i < 9; i++)
                 {
-                    if (currentMove.Score > bestMove.Score)
-                    {
-                        bestMove.MiniFieldID = currentMove.MiniFieldID;
-                        bestMove.CellID = currentMove.CellID;
-                        bestMove.Score = currentMove.Score;
-                    }
+                    board[i].IsActive = active[i]  ;
                 }
-                else
+            }
+
+        }
+
+        return score;
+    }
+
+    private Move RootMinimax(Board board, int depth, Team player)
+    {
+        Move bestMove = new Move();
+        bestMove.Score = -1000;
+
+        foreach (MiniField field in board.GetActiveMiniFields())
+        {
+            
+            foreach (Cell cell in field.GetFreeCells())
+            {
+
+                //запоминаем доску
+                bool[] active = new bool[9];
+                for (int i = 0; i < 9; i++)
                 {
-                    if (currentMove.Score <= bestMove.Score)
-                    {
-                        bestMove.MiniFieldID = currentMove.MiniFieldID;
-                        bestMove.CellID = currentMove.CellID;
-                        bestMove.Score = currentMove.Score;
-                    }
+                    active[i] = board[i].IsActive;
                 }
 
+                //делаем ход
+                cell.MarkedBy = player;
+                if (field.ShouldBeMarked())
+                {
+                    field.MarkedBy = player;
+                    field.IsActive = false;
+                }
+                board.SwitchMiniFieldsToNextTurn(cell.ID);
+
+                //минимакс
+                int value = MiniMax(board, depth, player, -1000, 1000, false);
+
+                if (value > bestMove.Score)
+                {
+                    bestMove.Score = value;
+                    bestMove.CellID = cell.ID;
+                    bestMove.MiniFieldID = field.ID;
+                }
+
+                //возвращаем поле в изначальное состо€ние
+                field.MarkedBy = Team.None;
+                field.IsActive = true;
+                cell.MarkedBy = Team.None;
+                for (int i = 0; i < 9; i++)
+                {
+                    board[i].IsActive = active[i];
+                }
             }
 
         }
@@ -83,88 +119,71 @@ public class AiController
         return bestMove;
     }
 
-    public Move GetMove(Board  board, Team player)
-    {
-        Move move = MiniMax(board, 6, player, Int32.MinValue, Int32.MaxValue, true);
-        return move;
-    }
-
     private int Evaluate(Board board, Team team)
     {
         int score = 0;
         for (int i = 0; i < 9; i++)
         {
-            score += EvaluateMiniField(board[i].Cells, team);
+            score += EvaluateMiniField(board[i], team);
         }
         return score;
     }
 
-    private int EvaluateMiniField(Cell[] board, Team team)
+    public Move GetMove(Board board, Team player)
     {
-        int score = 0;
-        Team teamOpponent = GetOpponent(team);
+        Move move = RootMinimax(board, 6, player);
+        Debug.Log(move.Score);
+        return move;
+    }
 
-        //добавл€ем себе +5 если есть ситуаци€, когда 2 €чейки в р€д есть и одна свободна
-        score += CheckLine(board, team, team, Team.None);
-        score += CheckLine(board, team, Team.None, team);
-        score += CheckLine(board, Team.None, team, team);
+    
 
-        //добавл€ем себе -5 если есть ситуаци€, когда 2 €чейки в р€д есть и одна свободна
-        score -= CheckLine(board, teamOpponent, teamOpponent, Team.None);
-        score -= CheckLine(board, teamOpponent, Team.None, teamOpponent);
-        score -= CheckLine(board, Team.None, teamOpponent, teamOpponent);
+    private int EvaluateMiniField(MiniField board, Team team)
+    {
 
-
-        //проверка по строкам
-        for (int i = 0; i < 9; i += 3)
+        if (board.MarkedBy == team) return 100;
+        else if (board.MarkedBy == GetOpponent(team)) return -100;
+        else
         {
-            if (board[i].MarkedBy == board[i + 1].MarkedBy && board[i + 1].MarkedBy == board[i + 2].MarkedBy)
-            {
-                if (board[i].MarkedBy == team) score += 10;
-                else if ((board[i].MarkedBy == teamOpponent)) score += -10;
-            }
+            int score = 0;
+            Team teamOpponent = GetOpponent(team);
+
+            //добавл€ем себе +5 если есть ситуаци€, когда 2 €чейки в р€д есть и одна свободна
+            score += CheckLine(board.Cells, team, team, Team.None) * 5 ;
+            score += CheckLine(board.Cells, team, Team.None, team) * 5;
+            score += CheckLine(board.Cells, Team.None, team, team) * 5;
+
+            //добавл€ем себе -5 если есть ситуаци€, когда 2 €чейки в р€д есть и одна свободна
+            score -= CheckLine(board.Cells, teamOpponent, teamOpponent, Team.None) * 5;
+            score -= CheckLine(board.Cells, teamOpponent, Team.None, teamOpponent) * 5;
+            score -= CheckLine(board.Cells, Team.None, teamOpponent, teamOpponent) * 5;
+
+            //добавл€ем себе +2 если есть ситуаци€, когда 1 €чейка и 2 свободны
+            score += CheckLine(board.Cells, team, Team.None, Team.None) * 2;
+            score += CheckLine(board.Cells, Team.None, Team.None, team) * 2;
+            score += CheckLine(board.Cells, Team.None, team, Team.None) * 2;
+
+            //добавл€ем себе -2 если есть ситуаци€, когда 1 €чейка и 2 свободны
+            score -= CheckLine(board.Cells, teamOpponent, Team.None, Team.None) * 2;
+            score -= CheckLine(board.Cells, Team.None, Team.None, teamOpponent) * 2;
+            score -= CheckLine(board.Cells, Team.None, teamOpponent, Team.None) * 2;
+            return score;
         }
-
-        //проверка по столбцам
-        for (int i = 0; i < 3; i++)
-        {
-            if (board[i].MarkedBy == board[i + 3].MarkedBy && board[i + 3].MarkedBy == board[i + 6].MarkedBy)
-            {
-                if (board[i].MarkedBy == team) score += 10;
-                else if ((board[i].MarkedBy == teamOpponent)) score += -10;
-            }
-
-        }
-
-        //диагонали
-        if (board[0].MarkedBy == board[4].MarkedBy && board[4].MarkedBy == board[8].MarkedBy)
-        {
-            if (board[4].MarkedBy == team) score += 10;
-            else if ((board[4].MarkedBy == teamOpponent)) score += -10;
-        }
-
-        if (board[2].MarkedBy == board[4].MarkedBy && board[4].MarkedBy == board[6].MarkedBy)
-        {
-            if (board[4].MarkedBy == team) score += 10;
-            else if ((board[4].MarkedBy == teamOpponent)) score += -10;
-        }
-
-        return score;
     }
 
 
     private int CheckLine(Cell[] field, Team team1, Team team2, Team team3)
     {
         for (int i = 0; i < 9; i += 3)
-            if (field[i].MarkedBy == team1 && field[i + 1].MarkedBy == team2 && field[i + 2].MarkedBy == team3) return 5;
+            if (field[i].MarkedBy == team1 && field[i + 1].MarkedBy == team2 && field[i + 2].MarkedBy == team3) return 1;
 
         for (int i = 0; i < 3; i++)
-            if (field[i].MarkedBy == team1 && field[i + 3].MarkedBy == team2 && field[i + 6].MarkedBy == team3) return 5;
+            if (field[i].MarkedBy == team1 && field[i + 3].MarkedBy == team2 && field[i + 6].MarkedBy == team3) return 1;
 
         if (field[0].MarkedBy == team1 && field[4].MarkedBy == team2 && field[8].MarkedBy == team3)
-            return 5;
+            return 1;
         if (field[2].MarkedBy == team1 && field[4].MarkedBy == team2 && field[6].MarkedBy == team3)
-            return 5;
+            return 1;
 
         return 0;
     }

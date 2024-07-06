@@ -7,12 +7,15 @@ public class PlayerVSPlayerModel : Model
 
     public PlayerVSPlayerModel(View view) : base(view)
     {
-
+       
     }
 
     public override void SetCellState(int fieldID, int cellID)
     {
         if (_IsWin) return;
+        if (!_board[fieldID - 1].IsActive) return;
+        if (!_board[fieldID - 1].Cells[cellID - 1].IsEmpty()) return;
+
         DoMove(fieldID, cellID);
         NextTurn();
 
@@ -24,6 +27,8 @@ public class PlayerVSPlayerModel : Model
         ChangeTurn();
     }
 
-
-
+    protected override void DoAiMove()
+    {
+        return;
+    }
 }

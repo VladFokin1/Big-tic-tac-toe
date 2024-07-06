@@ -51,8 +51,7 @@ public abstract class Model
 
     protected void DoMove(int fieldID, int cellID)
     {
-        if (!_board[fieldID - 1].IsActive) return;
-        if (!_board[fieldID - 1].Cells[cellID - 1].IsEmpty()) return;
+        
 
         _board[fieldID - 1].Cells[cellID - 1].MarkedBy = _playerCurrent.Team;
         _view.MarkCell(fieldID, cellID, _playerCurrent);
@@ -79,5 +78,13 @@ public abstract class Model
     {
         _playerCurrent = GetOpponent(_playerCurrent);
         _view.ChangeTurnText(_playerCurrent.Team);
+    }
+
+    protected abstract void DoAiMove();
+
+    public void DoRandomMove()
+    {
+        DoMove(Random.Range(1, 9), Random.Range(1, 9));
+        ChangeTurn();
     }
 }
